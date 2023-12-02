@@ -1,4 +1,5 @@
 import 'package:ca_todbadminton/config/config.dart';
+import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -175,7 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               CustomElevatedButton(
                 title: 'Login',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(context,
+                      HomeScreen.routeName, (Route<dynamic> route) => false);
+                },
               ),
             ],
           ),

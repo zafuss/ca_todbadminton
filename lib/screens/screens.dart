@@ -3,3 +3,4 @@ export './register_screen.dart';
 export './forgot_password_screen.dart';
 export './reset_password_screen.dart';
 export './otp_screen.dart';
+export './home_screen.dart';

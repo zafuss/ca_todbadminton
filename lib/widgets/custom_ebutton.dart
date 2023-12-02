@@ -20,7 +20,13 @@ class CustomElevatedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(defaultBorderRadius),
           ),
         ),
-        child: Text(title),
+        child: Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: Colors.white),
+        ),
       ),
     );
   }

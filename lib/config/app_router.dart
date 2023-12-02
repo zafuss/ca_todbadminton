@@ -1,3 +1,4 @@
+import 'package:ca_todbadminton/main.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class AppRouter {
         return ResetPasswordScreen.route();
       case OTPScreen.routeName:
         return OTPScreen.route();
+      case HomeScreen.routeName:
+        return HomeScreen.route();
       // case SplashScreen.routeName:
       //   return SplashScreen.route();
       // case HomeScreen.routeName:

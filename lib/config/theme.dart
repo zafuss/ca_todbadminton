@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 ThemeData theme() {
   return ThemeData(
+      useMaterial3: true,
+      // scaffoldBackgroundColor: primaryColor,
       // primaryColor: primaryColor,
-      // scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Inter',
       colorSchemeSeed: primaryColor,
       textTheme: textTheme());

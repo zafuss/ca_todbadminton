@@ -1,9 +1,16 @@
+import 'package:ca_todbadminton/formatter.dart';
+import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
+import 'package:ca_todbadminton/controllers/branch_controller.dart';
+import 'package:ca_todbadminton/models/branch_model.dart';
+import 'package:ca_todbadminton/screens/search_result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../config/config.dart';
 import '../widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const String routeName = '/home';
 
@@ -14,20 +21,30 @@ class HomeScreen extends StatelessWidget {
   }
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final branchController = Get.put(BranchController());
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    final bookingInformationController = Get.put(BookingInformation());
+    print(bookingInformationController.startTime.obs.string);
+
+    final SimpleDialog dialog = SimpleDialog(
+      title: Text('Choose branch'),
+      children: Branch.branches
+          .map((e) => SimpleDialogBranchItem(branch: e))
+          .toList(),
+    );
+
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-          selectedFontSize: 12,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(0.7),
-          backgroundColor: primaryColor,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.people_outline), label: 'Profile')
-          ]),
-      appBar: const CustomHasTitleAppbar(),
+      appBar: const CustomHasTitleAppbar(
+        title: 'Book Court',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(largePadding),
         child: Container(
@@ -53,90 +70,149 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  HomeFunctionWidget(
-                    title: 'Branch',
-                    icon: const Icon(Icons.place_outlined),
-                    childWidget: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Obx(
+                    () => HomeFunctionWidget(
+                      func: () {
+                        if (branchController.isLoading.value)
+                          CircularProgressIndicator();
+                        else {
+                          showDialog<void>(
+                              context: context, builder: (context) => dialog);
+                        }
+                      },
+                      title: 'Branch',
+                      icon: const Icon(Icons.place_outlined),
+                      childWidget: bookingInformationController
+                                  .branchName.value !=
+                              ''
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  bookingInformationController.branchName.value,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black),
+                                ),
+                                Text(
+                                  bookingInformationController.address.value,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(fontSize: 10),
+                                )
+                              ],
+                            )
+                          : Text(
+                              'Choose a branch',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                    ),
+                  ),
+                  Obx(
+                    () => HomeFunctionWidget(
+                      func: () async {
+                        final DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: dateFormat.parse(
+                              bookingInformationController.bookingDate.string),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2101),
+                        );
+                        if (pickedDate != null) {
+                          print(pickedDate);
+                          bookingInformationController
+                              .updateBookingDate(pickedDate);
+                        }
+                      },
+                      title: 'Date',
+                      icon: const Icon(Icons.calendar_month),
+                      childWidget: Text(
+                        bookingInformationController.bookingDate.string,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.w400, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => Row(
                       children: [
-                        Text(
-                          'Binh Thanh',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
+                        Expanded(
+                            child: HomeFunctionWidget(
+                          func: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: Formatter.convertStringToTimeOfDay(
+                                    bookingInformationController
+                                        .startTime.value));
+
+                            bookingInformationController
+                                .updateStartTime(pickedTime);
+                          },
+                          title: 'Start Time',
+                          icon: const Icon(Icons.access_alarm),
+                          childWidget: Text(
+                              bookingInformationController.startTime.value,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black)),
+                        )),
+                        const SizedBox(
+                          width: minPadding,
                         ),
-                        Text(
-                          '10 Xo Viet Nghe Tinh, quan Binh Thanh',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontSize: 10),
-                        )
+                        Expanded(
+                            child: HomeFunctionWidget(
+                          func: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: Formatter.convertStringToTimeOfDay(
+                                    bookingInformationController
+                                        .startTime.value));
+
+                            bookingInformationController
+                                .updateEndTime(pickedTime);
+                          },
+                          title: 'End Time',
+                          icon: const Icon(Icons.access_alarm),
+                          childWidget: Text(
+                              bookingInformationController.endTime.value,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black)),
+                        )),
                       ],
                     ),
-                  ),
-                  HomeFunctionWidget(
-                    title: 'Court',
-                    icon: const Icon(Icons.play_arrow_outlined),
-                    childWidget: Text(
-                      'San 1',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w400, color: Colors.black),
-                    ),
-                  ),
-                  HomeFunctionWidget(
-                    title: 'Date',
-                    icon: const Icon(Icons.calendar_month),
-                    childWidget: Text(
-                      '02/12/2023',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w400, color: Colors.black),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: HomeFunctionWidget(
-                          title: 'Time',
-                          icon: const Icon(Icons.access_alarm),
-                          childWidget: Text('11:00',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black)),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: minPadding,
-                      ),
-                      Expanded(
-                        child: HomeFunctionWidget(
-                          title: 'Time',
-                          icon: const Icon(Icons.access_alarm),
-                          childWidget: Text('12:00',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black)),
-                        ),
-                      ),
-                    ],
                   ),
                   SizedBox(
                     height: minPadding,
                   ),
-                  CustomElevatedButton(title: 'Search', onPressed: () {})
+                  CustomElevatedButton(
+                      title: 'Search',
+                      onPressed: () {
+                        Navigator.pushNamed(context, SearchScreen.routeName);
+                      })
                 ],
               )),
         ),
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

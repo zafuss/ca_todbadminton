@@ -1,5 +1,6 @@
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'config/config.dart';
 import 'widgets/widgets.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: LoginScreen.routeName,
       title: 'Flutter Demo',

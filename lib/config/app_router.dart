@@ -7,6 +7,10 @@ class AppRouter {
     print('This is route: ${settings.name}');
 
     switch (settings.name) {
+      case SearchScreen.routeName:
+        return SearchScreen.route();
+      case MainScreen.routeName:
+        return MainScreen.route();
       case LoginScreen.routeName:
         return LoginScreen.route();
       case RegisterScreen.routeName:

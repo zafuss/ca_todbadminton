@@ -5,7 +5,7 @@ class HomeFunctionWidget extends StatelessWidget {
   final String title;
   final Widget childWidget;
   final Icon? icon;
-  final Function? func;
+  final void Function()? func;
   const HomeFunctionWidget({
     super.key,
     required this.title,
@@ -16,15 +16,15 @@ class HomeFunctionWidget extends StatelessWidget {
 
   Widget buildInkWell(childWidget, icon) {
     return InkWell(
-      onTap: () {},
+      onTap: func,
       child: Container(
-        height: 58,
+        height: defaultWidgetHeight,
         decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(defaultBorderRadius),
                 side: const BorderSide(width: 1, color: primaryColor))),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           child: Row(
             children: [
               icon != null ? icon! : SizedBox(),

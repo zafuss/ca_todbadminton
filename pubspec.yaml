@@ -31,6 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
   pinput: ^3.0.1
+  equatable:
+  get:
+  intl:
 
 
 

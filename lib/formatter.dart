@@ -31,4 +31,21 @@ class Formatter {
 
     return format.parse(dateString);
   }
+
+  static double calculateTimeDifference(
+      TimeOfDay startTime, TimeOfDay endTime) {
+    DateTime startDate = DateTime(2023, 1, 1, startTime.hour, startTime.minute);
+    DateTime endDate = DateTime(2023, 1, 1, endTime.hour, endTime.minute);
+
+    Duration timeDifference = endDate.difference(startDate);
+
+    // Convert the time difference to hours as a float
+    double resultFloat = timeDifference.inMinutes / 60.0;
+
+    return resultFloat;
+  }
+
+  static double roundToNearestThousand(double number) {
+    return (number / 1000).roundToDouble() * 1000;
+  }
 }

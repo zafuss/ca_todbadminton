@@ -39,5 +39,6 @@ class RfDetail extends Equatable {
     RfDetail(reservationNo: 'Rev0710230000', courtId: 'SBT001', note: null),
     RfDetail(reservationNo: 'Rev0710230000', courtId: 'SBT002', note: null),
     RfDetail(reservationNo: 'Rev0710230001', courtId: 'SBT002', note: null),
+    RfDetail(reservationNo: 'Rev0710230002', courtId: 'STD001', note: null),
   ];
 }

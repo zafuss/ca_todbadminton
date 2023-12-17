@@ -1,8 +1,10 @@
+import 'package:ca_todbadminton/compare_function.dart';
 import 'package:ca_todbadminton/controllers/branch_controller.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/controllers/rf_detail_controller.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/models/models.dart';
+import 'package:ca_todbadminton/services/remote_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,20 +18,37 @@ class ResultController extends GetxController {
   var rfdetails = [].obs;
   var newRfdetails = [].obs;
   var isLoading = true.obs;
+  var result = [].obs;
+  var reservedCourts = [].obs;
+  var status = 0.obs;
 
-  final BookingInformation bookingInformationController = Get.find();
-  final BranchController branchController = Get.find();
+  late final BookingInformation bookingInformationController;
+  late final branchController;
   final courtController = Get.put(CourtController());
   final priceController = Get.put(PriceController());
   final reservationController = Get.put(ReservationController());
   final rfdetailController = Get.put(RfDetailController());
 
+  Future<void> fetchData() async {
+    reservations.value = await RemoteService.fetchReservations();
+    branches.value = await RemoteService.fetchBranches();
+    prices.value = await RemoteService.fetchPrices();
+    courts.value = await RemoteService.fetchCourts();
+    courts.value = courts.value
+        .where((element) =>
+            element.branchID == bookingInformationController.branchID.value)
+        .toList();
+    print(courts);
+    rfdetails.value = await RemoteService.fetchRfDetails();
+  }
+
   @override
-  void onInit() {
-    branches.value = branchController.branchList;
-    courts.value = courtController.courtList;
-    prices.value = priceController.priceList;
-    reservations.value = reservationController.reservationList;
+  void onInit() async {
+    bookingInformationController = Get.put(BookingInformation());
+    Get.delete<BranchController>();
+    branchController = Get.put(BranchController());
+    await fetchData();
+    print(reservations);
     // TODO: implement onInit
     print('is being init');
     try {
@@ -44,30 +63,74 @@ class ResultController extends GetxController {
     } catch (e) {
       print(e);
     }
-
     super.onInit();
   }
 
-  void fetchResult(
+  Future<void> fetchResult(
       {required branchID,
       required DateTime bookingDate,
       required TimeOfDay startTime,
-      required TimeOfDay endTime}) {
+      required TimeOfDay endTime}) async {
     try {
       isLoading(true);
-      print(reservations.value);
+
       for (Reservation reservation in reservations.value) {
-        newRfdetails.value += fetchReservationResult(
+
+        newRfdetails += fetchReservationResult(
                 branchID: branchID,
                 bookingDate: bookingDate,
                 startTime: startTime,
                 endTime: endTime,
                 reservation: reservation)
             .obs;
-        print('newRfdetails.value');
+
       }
+     
     } finally {
-      isLoading(false);
+      if (newRfdetails != [].obs) {
+        for (RfDetail newRfdetail in newRfdetails) {
+          print(newRfdetail);
+          Reservation reservationByDetail = reservations.firstWhere(
+              (element) => element.reservationNo == newRfdetail.reservationNo);
+          reservedCourts.add(ReservedCourt(
+            bookingDate: reservationByDetail.bookingDate,
+            branchID: branchID.value,
+            startTime: TimeOfDay.fromDateTime(reservationByDetail.startTime),
+            courtID: newRfdetail.courtId,
+            endTime: TimeOfDay.fromDateTime(reservationByDetail.endTime),
+          ));
+        }
+      }
+      int i = 0;
+      print(reservedCourts);
+      for (Court court in courts) {
+        i++;
+        print(
+            'check result: ${checkAvailability(startTime, endTime, bookingDate, reservedCourts, court)}, court: ${court.courtID}');
+        if (checkAvailability(
+            startTime, endTime, bookingDate, reservedCourts, court)) {
+          print(i);
+          print( prices.firstWhere((element) => element.status == 1).priceTag *
+                  Formatter.calculateTimeDifference(startTime, endTime));
+          result.add(AvailableCourt(
+              bookingDate: bookingDate,
+              branchID: court.branchID,
+              courtID: court.courtID,
+              startTime: startTime,
+              endTime: endTime,
+              price: prices.firstWhere((element) => element.status == 1).priceTag *
+                  Formatter.calculateTimeDifference(startTime, endTime)));
+        }
+      }
+      print(result.length);
+      await Future.delayed(Duration(seconds: 1));
+      print(result.isEmpty);
+      if (await result.isEmpty) {
+        status.value = -1;
+        print('changed');
+      } else {
+        status.value = 1;
+      }
     }
   }
 
@@ -77,25 +140,62 @@ class ResultController extends GetxController {
       required TimeOfDay startTime,
       required TimeOfDay endTime,
       required Reservation reservation}) {
-    return rfdetailController.rfDetailList.value
-      ..where((element) => element.reservationNo == reservation.reservationNo)
+    List<RfDetail> result = [];
+    for (RfDetail rfDetail in rfdetails) {
+      List courtList = courts
+          .where((element) =>
+              element.branchID ==
+              branches
+                  .firstWhere((element) => element.branchID == branchID.value)
+                  .branchID)
           .toList();
+      for (var court in courtList) {
+        if (rfDetail.reservationNo == reservation.reservationNo &&
+            CompareFunction.areDatesEqual(bookingDate, reservation.bookingDate) &&
+            rfDetail.courtId == court.courtID) {
+          result.add(rfDetail);
+        }
+      }
+    }
+    return result;
   }
 
-  int timeOfDayCompare(TimeOfDay t1, TimeOfDay t2) {
-    if (t1.hour > t2.hour) {
-      return 1;
+
+
+  bool checkAvailability(TimeOfDay desiredStartTime, TimeOfDay desiredEndTime,
+      DateTime bookingDate, RxList<dynamic> reservedCourts, Court court) {
+    // Kiểm tra từng đặt sân trong danh sách
+    for (var reservedCourt in reservedCourts) {
+      // Kiểm tra xem thời gian mong muốn có trùng với bất kỳ đặt sân nào không
+      // print(court.courtID == reservedCourt.courtID);
+      if (court.courtID == reservedCourt.courtID) {
+        if (CompareFunction.areDatesEqual(bookingDate, reservedCourt.bookingDate) &&
+                (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0) &&
+                (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == -1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0) ||
+            (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
+                (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == -1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0) ||
+            (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
+                (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0) ||
+            (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0) &&
+                (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
+                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
+                        0)) {
+          return false; // Thời gian đã được đặt trước
+        } else {
+          return true; // Thời gian khả dụng
+        }
+      }
     }
-    if (t1.hour < t2.hour) {
-      return -1;
-    }
-    if (t1.minute > t2.minute) {
-      return 1;
-    }
-    if (t1.minute < t2.minute) {
-      return -1;
-    } else {
-      return 0;
-    }
+    return true;
   }
 }

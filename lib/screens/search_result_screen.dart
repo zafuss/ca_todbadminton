@@ -2,6 +2,7 @@ import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
 import 'package:ca_todbadminton/controllers/court_controller.dart';
 import 'package:ca_todbadminton/controllers/search_result_controller.dart';
+import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,82 +23,192 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // final courtController = Get.put(CourtController());
     // final bookingInformationController = Get.put(BookingInformation());
+    Get.delete<ResultController>();
     final searchResultController = Get.put(ResultController());
     return Scaffold(
-      appBar: CustomHasTitleAppbar(
-        title: 'Search Result',
-      ),
-      body: searchResultController.isLoading.value
-          ? CircularProgressIndicator()
-          : Padding(
-              padding: EdgeInsets.all(largePadding),
-              child: Obx(
-                () => ListView.builder(
-                  itemBuilder: ((context, index) => Text(
-                        searchResultController
-                            .newRfdetails[index].value.reservationNo,
+        appBar: CustomHasTitleAppbar(
+          title: 'Search Result',
+          backFunc: () {
+            Get.back();
+          },
+        ),
+        body: Obx(() => Center(
+            child: searchResultController.status.value == 0
+                ? const CircularProgressIndicator()
+                : searchResultController.status.value == 1
+                    ? ListView.builder(
+                        itemCount: searchResultController.result.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: minPadding / 2,
+                                horizontal: largePadding),
+                            child: Container(
+                              // alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      // color: Color(0x0C591B1B),
+                                      color: primaryColor.withOpacity(0.5),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 5),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(
+                                      defaultBorderRadius * 2)),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: minPadding,
+                                          right: minPadding,
+                                          bottom: minPadding,
+                                          top: minPadding),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Branch: ${searchResultController.branches.firstWhere((element) => element.branchID == searchResultController.result[index].branchID).branchName}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                  ),
+                                                  Text(
+                                                    'Court: ${searchResultController.courts.firstWhere((element) => element.courtID == searchResultController.result[index].courtID).courtName}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                  )
+                                                ],
+                                              ),
+                                              Container(
+                                                height: 100,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      Formatter.formatTimeOfDay(
+                                                          searchResultController
+                                                              .result[index]
+                                                              .startTime),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineLarge!
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                    ),
+                                                    Text('-',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headlineLarge!
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600)),
+                                                    Text(
+                                                      Formatter.formatTimeOfDay(
+                                                          searchResultController
+                                                              .result[index]
+                                                              .endTime),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineLarge!
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                    height: 1,
+                                    color: primaryColor.withOpacity(0.5),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: minPadding),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: minPadding,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Price',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium!
+                                                  .copyWith(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                            ),
+                                            Text(
+                                              '${Formatter.roundToNearestThousand(searchResultController.result[index].price).toInt().toString()}đ',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium!
+                                                  .copyWith(
+                                                      color: Colors.black),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: minPadding),
+                                          child: CustomElevatedButton(
+                                              title: 'Select',
+                                              onPressed: () {}),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                    : Text(
+                        'There are no courts available at this time.',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
                             .copyWith(color: Colors.black),
-                      )),
-                  itemCount: searchResultController.newRfdetails.value.length,
-                ),
-              )),
-    );
-  }
-}
-
-class CourtInformation extends StatelessWidget {
-  const CourtInformation({
-    super.key,
-    required this.court,
-  });
-  final Court court;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      // alignment: Alignment.center,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              // color: Color(0x0C591B1B),
-              color: primaryColor.withOpacity(0.5),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
-            )
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(defaultBorderRadius * 2)),
-      child: Padding(
-          padding: const EdgeInsets.only(
-              left: minPadding,
-              right: minPadding,
-              bottom: minPadding,
-              top: minPadding),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  court.branchID,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  court.courtName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.black),
-                ),
-                SizedBox(
-                  height: minPadding,
-                ),
-                CustomElevatedButton(title: 'Select', onPressed: () {})
-              ])),
-    );
+                      ))));
   }
 }

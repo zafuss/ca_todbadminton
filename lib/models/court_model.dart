@@ -26,8 +26,38 @@ class Court extends Equatable {
         startDate: DateTime.now(),
         branchID: 'BT001'),
     Court(
+        courtID: 'SBT2001',
+        courtName: 'San 1',
+        status: 'Active',
+        startDate: DateTime.now(),
+        branchID: 'BT002'),
+    Court(
+        courtID: 'SBT2002',
+        courtName: 'San 2',
+        status: 'Active',
+        startDate: DateTime.now(),
+        branchID: 'BT002'),
+    Court(
         courtID: 'SBT002',
         courtName: 'San 2',
+        status: 'Active',
+        startDate: DateTime.now(),
+        branchID: 'BT001'),
+    Court(
+        courtID: 'SBT003',
+        courtName: 'San 3',
+        status: 'Active',
+        startDate: DateTime.now(),
+        branchID: 'BT001'),
+    Court(
+        courtID: 'SBT004',
+        courtName: 'San 4',
+        status: 'Active',
+        startDate: DateTime.now(),
+        branchID: 'BT001'),
+    Court(
+        courtID: 'SBT005',
+        courtName: 'San 5',
         status: 'Active',
         startDate: DateTime.now(),
         branchID: 'BT001'),

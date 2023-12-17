@@ -1,8 +1,10 @@
+import 'package:ca_todbadminton/compare_function.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
 import 'package:ca_todbadminton/controllers/branch_controller.dart';
 import 'package:ca_todbadminton/models/branch_model.dart';
 import 'package:ca_todbadminton/screens/search_result_screen.dart';
+import 'package:ca_todbadminton/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +28,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
+  late TimeOfDay startTime;
+  late TimeOfDay endTime;
+
+  @override
+  void initState() {
+    startTime = TimeOfDay.now();
+    endTime = TimeOfDay(hour: startTime.hour + 1, minute: startTime.minute);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -46,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen>
         title: 'Book Court',
       ),
       body: Padding(
-        padding: const EdgeInsets.all(largePadding),
+        padding: const EdgeInsets.symmetric(horizontal: largePadding),
         child: Container(
           // alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -153,9 +166,11 @@ class _HomeScreenState extends State<HomeScreen>
                                 initialTime: Formatter.convertStringToTimeOfDay(
                                     bookingInformationController
                                         .startTime.value));
-
-                            bookingInformationController
-                                .updateStartTime(pickedTime);
+                            if (pickedTime != null) {
+                              startTime = pickedTime;
+                              bookingInformationController
+                                  .updateStartTime(pickedTime);
+                            }
                           },
                           title: 'Start Time',
                           icon: const Icon(Icons.access_alarm),
@@ -179,9 +194,11 @@ class _HomeScreenState extends State<HomeScreen>
                                 initialTime: Formatter.convertStringToTimeOfDay(
                                     bookingInformationController
                                         .startTime.value));
-
-                            bookingInformationController
-                                .updateEndTime(pickedTime);
+                            if (pickedTime != null) {
+                              endTime = pickedTime;
+                              bookingInformationController
+                                  .updateEndTime(pickedTime);
+                            }
                           },
                           title: 'End Time',
                           icon: const Icon(Icons.access_alarm),
@@ -203,7 +220,35 @@ class _HomeScreenState extends State<HomeScreen>
                   CustomElevatedButton(
                       title: 'Search',
                       onPressed: () {
-                        Navigator.pushNamed(context, SearchScreen.routeName);
+                        String? validatorResult =
+                            Validator.searchingCourtValidator(
+                                bookingInformationController.branchName.value,
+                                startTime,
+                                endTime);
+                        if (validatorResult == null) {
+                          var result = Get.toNamed(SearchScreen.routeName);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(
+                                      'Please check your booking time',
+                                    ),
+                                    content: Text(
+                                      validatorResult,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: Colors.black),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text('Let me check'))
+                                    ],
+                                  ));
+                        }
                       })
                 ],
               )),

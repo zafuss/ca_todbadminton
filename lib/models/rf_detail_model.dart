@@ -8,6 +8,7 @@ List<RfDetail> rfDetailFromJson(String str) =>
 String rfDetailToJson(List<RfDetail> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+// ignore: must_be_immutable
 class RfDetail extends Equatable {
   String reservationNo;
   String courtId;

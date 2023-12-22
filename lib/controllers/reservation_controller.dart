@@ -8,7 +8,6 @@ class ReservationController extends GetxController {
   var reservationList = <Reservation>[].obs;
   @override
   void onInit() {
-    print('reservations is being init');
     // TODO: implement onInit
     fetchReservations();
     super.onInit();
@@ -18,8 +17,7 @@ class ReservationController extends GetxController {
     isLoading(true);
     try {
       var reservations = await RemoteService.fetchReservations();
-      if (reservations != null) reservationList.value = reservations;
-      print(reservationList.value);
+      if (reservations != []) reservationList.value = reservations;
     } finally {
       isLoading(false);
     }

@@ -1,4 +1,3 @@
-import 'package:ca_todbadminton/main.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:flutter/material.dart';
 

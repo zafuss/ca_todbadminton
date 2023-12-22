@@ -1,9 +1,6 @@
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
-import 'package:ca_todbadminton/models/branch_model.dart';
 import 'package:ca_todbadminton/models/models.dart';
 
 class BookingInformation extends GetxController {
@@ -16,11 +13,12 @@ class BookingInformation extends GetxController {
   var address = ''.obs;
 
   BookingInformation() {
-    startTime = Formatter.formatTimeOfDay(TimeOfDay.now()).obs;
+    TimeOfDay nextQuarterHour = Formatter.getNextQuarterHour(TimeOfDay.now());
+    startTime = Formatter.formatTimeOfDay(nextQuarterHour).obs;
 
     endTime = Formatter.formatTimeOfDay(TimeOfDay(
-            hour: (TimeOfDay.now().hour + 1) % 24,
-            minute: TimeOfDay.now().minute))
+            hour: (nextQuarterHour.hour + 1) % 24,
+            minute: nextQuarterHour.minute))
         .obs;
     bookingDate = Formatter.formatDateTime(DateTime.now()).obs;
   }

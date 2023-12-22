@@ -34,6 +34,7 @@ dependencies:
   equatable:
   get:
   intl:
+  # interval_time_picker: ^2.0.0+5
 
 
 

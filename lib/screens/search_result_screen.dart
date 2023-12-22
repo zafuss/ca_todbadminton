@@ -1,13 +1,9 @@
 import 'package:ca_todbadminton/config/config.dart';
-import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
-import 'package:ca_todbadminton/controllers/court_controller.dart';
 import 'package:ca_todbadminton/controllers/search_result_controller.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../models/models.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

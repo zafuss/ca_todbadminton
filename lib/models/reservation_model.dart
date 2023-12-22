@@ -3,8 +3,6 @@
 //     final reservation = reservationFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'package:ca_todbadminton/formatter.dart';
 import 'package:equatable/equatable.dart';
 
 List<Reservation> reservationFromJson(String str) => List<Reservation>.from(

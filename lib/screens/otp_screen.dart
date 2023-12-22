@@ -5,6 +5,7 @@ import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
+// ignore: must_be_immutable
 class OTPScreen extends StatelessWidget {
   OTPScreen({Key? key}) : super(key: key) {
     _startCountdown();

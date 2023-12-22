@@ -12,6 +12,7 @@ List<Price> priceFromJson(String str) =>
 String priceToJson(List<Price> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+// ignore: must_be_immutable
 class Price extends Equatable {
   String priceId;
   int priceTag;

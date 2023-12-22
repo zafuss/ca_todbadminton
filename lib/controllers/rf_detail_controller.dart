@@ -17,7 +17,7 @@ class RfDetailController extends GetxController {
     isLoading(true);
     try {
       var rfDetails = await RemoteService.fetchRfDetails();
-      if (rfDetails != null) rfDetailList.value = rfDetails;
+      if (rfDetails != []) rfDetailList.value = rfDetails;
     } finally {
       isLoading(false);
     }

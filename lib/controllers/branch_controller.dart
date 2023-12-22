@@ -17,7 +17,7 @@ class BranchController extends GetxController {
     isLoading(true);
     try {
       var branches = await RemoteService.fetchBranches();
-      if (branches != null) branchList.value = branches;
+      if (branches != []) branchList.value = branches;
     } finally {
       isLoading(false);
     }

@@ -1,11 +1,8 @@
 import 'package:ca_todbadminton/compare_function.dart';
-import 'package:ca_todbadminton/controllers/branch_controller.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
-import 'package:ca_todbadminton/controllers/rf_detail_controller.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/models/models.dart';
 import 'package:ca_todbadminton/services/remote_services.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,8 +31,8 @@ class ResultController extends GetxController {
     branches.value = await RemoteService.fetchBranches();
     prices.value = await RemoteService.fetchPrices();
     courts.value = await RemoteService.fetchCourts();
-    courts.value = courts.value
-        .where((element) =>
+    courts.value = courts.
+        where((element) =>
             element.branchID == bookingInformationController.branchID.value)
         .toList();
     print(courts);
@@ -74,7 +71,7 @@ class ResultController extends GetxController {
     try {
       isLoading(true);
 
-      for (Reservation reservation in reservations.value) {
+      for (Reservation reservation in reservations) {
 
         newRfdetails += fetchReservationResult(
                 branchID: branchID,

@@ -17,7 +17,7 @@ class PriceController extends GetxController {
     isLoading(true);
     try {
       var prices = await RemoteService.fetchPrices();
-      if (prices != null) priceList.value = prices;
+      if (prices != []) priceList.value = prices;
     } finally {
       isLoading(false);
     }

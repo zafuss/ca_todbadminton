@@ -1,10 +1,10 @@
-import 'package:ca_todbadminton/compare_function.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
 import 'package:ca_todbadminton/controllers/branch_controller.dart';
 import 'package:ca_todbadminton/models/branch_model.dart';
 import 'package:ca_todbadminton/screens/search_result_screen.dart';
 import 'package:ca_todbadminton/validator.dart';
+import 'package:ca_todbadminton/widgets/custom_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    startTime = TimeOfDay.now();
+    startTime = Formatter.getNextQuarterHour(TimeOfDay.now());
+    print(startTime);
     endTime = TimeOfDay(hour: startTime.hour + 1, minute: startTime.minute);
     // TODO: implement initState
     super.initState();
@@ -161,11 +162,15 @@ class _HomeScreenState extends State<HomeScreen>
                         Expanded(
                             child: HomeFunctionWidget(
                           func: () async {
-                            TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: Formatter.convertStringToTimeOfDay(
-                                    bookingInformationController
-                                        .startTime.value));
+                            TimeOfDay? pickedTime =
+                                await showIntervalTimePicker(
+                                    interval: 15,
+                                    visibleStep: VisibleStep.fifteenths,
+                                    context: context,
+                                    initialTime:
+                                        Formatter.convertStringToTimeOfDay(
+                                            bookingInformationController
+                                                .startTime.value));
                             if (pickedTime != null) {
                               startTime = pickedTime;
                               bookingInformationController
@@ -189,11 +194,15 @@ class _HomeScreenState extends State<HomeScreen>
                         Expanded(
                             child: HomeFunctionWidget(
                           func: () async {
-                            TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: Formatter.convertStringToTimeOfDay(
-                                    bookingInformationController
-                                        .startTime.value));
+                            TimeOfDay? pickedTime =
+                                await showIntervalTimePicker(
+                                    interval: 15,
+                                    visibleStep: VisibleStep.fifteenths,
+                                    context: context,
+                                    initialTime:
+                                        Formatter.convertStringToTimeOfDay(
+                                            bookingInformationController
+                                                .endTime.value));
                             if (pickedTime != null) {
                               endTime = pickedTime;
                               bookingInformationController
@@ -226,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 startTime,
                                 endTime);
                         if (validatorResult == null) {
-                          var result = Get.toNamed(SearchScreen.routeName);
+                          Get.toNamed(SearchScreen.routeName);
                         } else {
                           showDialog(
                               context: context,

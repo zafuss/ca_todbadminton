@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Home extends Equatable {
   String branch;
   DateTime bookingDate;

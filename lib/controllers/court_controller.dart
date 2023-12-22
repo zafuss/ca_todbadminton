@@ -17,7 +17,7 @@ class CourtController extends GetxController {
     isLoading(true);
     try {
       var courts = await RemoteService.fetchCourts();
-      if (courts != null) courtList.value = courts;
+      if (courts != []) courtList.value = courts;
     } finally {
       isLoading(false);
     }

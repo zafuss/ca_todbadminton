@@ -48,4 +48,18 @@ class Formatter {
   static double roundToNearestThousand(double number) {
     return (number / 1000).roundToDouble() * 1000;
   }
+
+  static TimeOfDay getNextQuarterHour(TimeOfDay time) {
+    int minutes = time.minute;
+
+    // Calculate the next quarter hour
+    int nextQuarterHour = ((minutes / 15).ceil()) * 15;
+
+    if (nextQuarterHour == 60) {
+      // If the next quarter hour is 60, set it to 0 and increment the hour
+      return TimeOfDay(hour: time.hour + 1, minute: 0);
+    } else {
+      return TimeOfDay(hour: time.hour, minute: nextQuarterHour);
+    }
+  }
 }

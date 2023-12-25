@@ -22,6 +22,8 @@ class AppRouter {
         return OTPScreen.route();
       case HomeScreen.routeName:
         return HomeScreen.route();
+      case ConfirmBooking.routeName:
+        return ConfirmBooking.route();
       // case SplashScreen.routeName:
       //   return SplashScreen.route();
       // case HomeScreen.routeName:

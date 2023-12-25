@@ -1,9 +1,13 @@
 import 'package:ca_todbadminton/config/config.dart';
+import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
 import 'package:ca_todbadminton/controllers/search_result_controller.dart';
 import 'package:ca_todbadminton/formatter.dart';
+import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../models/models.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -18,7 +22,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final courtController = Get.put(CourtController());
-    // final bookingInformationController = Get.put(BookingInformation());
+    final bookingInformationController = Get.put(BookingInformation());
     Get.delete<ResultController>();
     final searchResultController = Get.put(ResultController());
     return Scaffold(
@@ -35,6 +39,15 @@ class SearchScreen extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: searchResultController.result.length,
                         itemBuilder: (context, index) {
+                          Branch branch = searchResultController.branches
+                              .firstWhere((element) =>
+                                  element.branchID ==
+                                  searchResultController
+                                      .result[index].branchID);
+                          Court court = searchResultController.courts
+                              .firstWhere((element) =>
+                                  element.courtID ==
+                                  searchResultController.result[index].courtID);
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: minPadding / 2,
@@ -73,7 +86,7 @@ class SearchScreen extends StatelessWidget {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    'Branch: ${searchResultController.branches.firstWhere((element) => element.branchID == searchResultController.result[index].branchID).branchName}',
+                                                    'Branch: ${branch.branchName}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyLarge!
@@ -84,7 +97,7 @@ class SearchScreen extends StatelessWidget {
                                                                     .w600),
                                                   ),
                                                   Text(
-                                                    'Court: ${searchResultController.courts.firstWhere((element) => element.courtID == searchResultController.result[index].courtID).courtName}',
+                                                    'Court: ${court.courtName}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyMedium!
@@ -189,7 +202,14 @@ class SearchScreen extends StatelessWidget {
                                               vertical: minPadding),
                                           child: CustomElevatedButton(
                                               title: 'Select',
-                                              onPressed: () {}),
+                                              onPressed: () {
+                                                bookingInformationController
+                                                    .updateCourt(court);
+                                                bookingInformationController
+                                                    .updateBranch(branch);
+                                                Get.toNamed(
+                                                    ConfirmBooking.routeName);
+                                              }),
                                         )
                                       ],
                                     ),

@@ -49,7 +49,7 @@ class BookingInformation extends GetxController {
   }
 
   void updateCourt(Court court) {
-    this.court = court.courtName as RxString;
+    this.court = court.courtName.obs;
   }
 
   void updateBookingDate(bookingDate) {

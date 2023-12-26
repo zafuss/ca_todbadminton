@@ -17,7 +17,7 @@ class ConfirmBooking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bookingInformationController = BookingInformation();
+    final bookingInformationController = Get.find<BookingInformation>();
     print(bookingInformationController.branchName.value);
     return Scaffold(
       appBar: CustomHasTitleAppbar(

@@ -48,6 +48,8 @@ class SearchScreen extends StatelessWidget {
                               .firstWhere((element) =>
                                   element.courtID ==
                                   searchResultController.result[index].courtID);
+                          double prices = Formatter.roundToNearestThousand(
+                              searchResultController.result[index].price);
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: minPadding / 2,
@@ -188,7 +190,7 @@ class SearchScreen extends StatelessWidget {
                                                           FontWeight.w600),
                                             ),
                                             Text(
-                                              '${Formatter.roundToNearestThousand(searchResultController.result[index].price).toInt().toString()}đ',
+                                              '${prices.toInt().toString()}đ',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headlineMedium!
@@ -207,6 +209,8 @@ class SearchScreen extends StatelessWidget {
                                                     .updateCourt(court);
                                                 bookingInformationController
                                                     .updateBranch(branch);
+                                                bookingInformationController
+                                                    .updatePrices(prices);
                                                 Get.toNamed(
                                                     ConfirmBooking.routeName);
                                               }),

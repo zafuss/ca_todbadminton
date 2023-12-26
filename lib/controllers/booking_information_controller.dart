@@ -11,6 +11,7 @@ class BookingInformation extends GetxController {
   var startTime = ''.obs;
   var endTime = TimeOfDay.now().toString().obs;
   var address = ''.obs;
+  RxDouble prices = 0.0.obs;
 
   BookingInformation() {
     TimeOfDay nextQuarterHour = Formatter.getNextQuarterHour(TimeOfDay.now());
@@ -30,13 +31,15 @@ class BookingInformation extends GetxController {
       required bookingDate,
       required startTime,
       required address,
-      required endTime}) {
+      required endTime,
+      required prices}) {
     this.branchID = branchID as RxString;
     this.branchName = branchName as RxString;
     this.court = court as RxString;
     this.bookingDate = bookingDate as RxString;
     this.startTime = startTime as RxString; // Corrected variable name
     this.endTime = endTime as RxString; // Corrected variable name
+    this.prices.value = prices.obs;
   }
 
   void updateBranch(Branch branch) {
@@ -49,7 +52,7 @@ class BookingInformation extends GetxController {
   }
 
   void updateCourt(Court court) {
-    this.court = court.courtName.obs;
+    this.court.value = court.courtName;
   }
 
   void updateBookingDate(bookingDate) {
@@ -64,5 +67,9 @@ class BookingInformation extends GetxController {
   void updateEndTime(endTime) {
     this.endTime.value = Formatter.formatTimeOfDay(endTime).obs.value;
     print(endTime);
+  }
+
+  void updatePrices(prices) {
+    this.prices.value = prices;
   }
 }

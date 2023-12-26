@@ -62,4 +62,13 @@ class Formatter {
       return TimeOfDay(hour: time.hour, minute: nextQuarterHour);
     }
   }
+
+  static String playTimeString(TimeOfDay startTime, TimeOfDay endTime) {
+    double diff = calculateTimeDifference(startTime, endTime);
+    Duration duration = Duration(
+        hours: diff.floor(), minutes: ((diff - diff.floor()) * 60).round());
+
+    // In kết quả
+    return '${duration.inHours}h ${duration.inMinutes.remainder(60)}mins';
+  }
 }

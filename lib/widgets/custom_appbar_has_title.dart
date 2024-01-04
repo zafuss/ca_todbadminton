@@ -42,12 +42,16 @@ class CustomHasTitleAppbar extends StatelessWidget
                     : SizedBox(
                         width: 36,
                       ),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
                 ),
                 IconButton(
                   icon: Icon(

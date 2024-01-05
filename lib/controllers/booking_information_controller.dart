@@ -7,6 +7,7 @@ class BookingInformation extends GetxController {
   var branchName = ''.obs;
   var branchID = ''.obs;
   var court = ''.obs;
+  RxList<Court> courts = <Court>[].obs;
   var bookingDate = ''.obs;
   var startTime = ''.obs;
   var endTime = TimeOfDay.now().toString().obs;
@@ -71,5 +72,20 @@ class BookingInformation extends GetxController {
 
   void updatePrices(prices) {
     this.prices.value = prices;
+  }
+
+  void addCourt(Court court) {
+    this.courts.add(court);
+  }
+
+  void removeCourt(Court court) {
+    this.courts.removeWhere((element) => element.courtID == court.courtID);
+  }
+
+  bool isCourtExist(Court court) {
+    for (Court element in courts) {
+      if (element.courtID == court.courtID) return true;
+    }
+    return false;
   }
 }

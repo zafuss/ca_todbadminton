@@ -26,6 +26,57 @@ class SearchScreen extends StatelessWidget {
     Get.delete<ResultController>();
     final searchResultController = Get.put(ResultController());
     return Scaffold(
+        bottomNavigationBar: Container(
+            height: 75,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: largePadding),
+              child: Obx(() {
+                int count = bookingInformationController.courts.length;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'You have chosen $count court(s)',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.black),
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          // Nếu bạn muốn nút có màu khác khi disable, bạn có thể thay đổi màu sắc ở đây
+                          backgroundColor: count > 0
+                              ? primaryColor
+                              : Colors.grey.withOpacity(0.5),
+                        ),
+                        onPressed: count > 0
+                            ? () {
+                                Get.toNamed(ConfirmBooking.routeName);
+                              }
+                            : null,
+                        child: Row(
+                          children: [
+                            Text(
+                              'Next',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: count > 0
+                                          ? Colors.white
+                                          : Colors.grey),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 13,
+                              color: count > 0 ? Colors.white : Colors.grey,
+                            )
+                          ],
+                        ))
+                  ],
+                );
+              }),
+            )),
         appBar: CustomHasTitleAppbar(
           title: 'Search Result',
           backFunc: () {
@@ -199,21 +250,34 @@ class SearchScreen extends StatelessWidget {
                                             )
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: minPadding),
-                                          child: CustomElevatedButton(
-                                              title: 'Select',
-                                              onPressed: () {
-                                                bookingInformationController
-                                                    .updateCourt(court);
-                                                bookingInformationController
-                                                    .updateBranch(branch);
-                                                bookingInformationController
-                                                    .updatePrices(prices);
-                                                Get.toNamed(
-                                                    ConfirmBooking.routeName);
-                                              }),
+                                        Obx(
+                                          () => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: minPadding),
+                                            child: bookingInformationController
+                                                    .isCourtExist(court)
+                                                ? CustomElevatedButton(
+                                                    outlineButton: true,
+                                                    title: 'Unselect',
+                                                    onPressed: () {
+                                                      bookingInformationController
+                                                          .removeCourt(court);
+                                                      bookingInformationController
+                                                          .updateBranch(branch);
+                                                      bookingInformationController
+                                                          .updatePrices(prices);
+                                                    })
+                                                : CustomElevatedButton(
+                                                    title: 'Select',
+                                                    onPressed: () {
+                                                      bookingInformationController
+                                                          .addCourt(court);
+                                                      bookingInformationController
+                                                          .updateBranch(branch);
+                                                      bookingInformationController
+                                                          .updatePrices(prices);
+                                                    }),
+                                          ),
                                         )
                                       ],
                                     ),

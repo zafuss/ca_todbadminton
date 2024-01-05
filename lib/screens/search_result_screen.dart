@@ -81,6 +81,7 @@ class SearchScreen extends StatelessWidget {
           title: 'Search Result',
           backFunc: () {
             Get.back();
+            bookingInformationController.resetChosenCourt();
           },
         ),
         body: Obx(() => Center(
@@ -265,7 +266,7 @@ class SearchScreen extends StatelessWidget {
                                                       bookingInformationController
                                                           .updateBranch(branch);
                                                       bookingInformationController
-                                                          .updatePrices(prices);
+                                                          .subPrice(prices);
                                                     })
                                                 : CustomElevatedButton(
                                                     title: 'Select',
@@ -275,7 +276,7 @@ class SearchScreen extends StatelessWidget {
                                                       bookingInformationController
                                                           .updateBranch(branch);
                                                       bookingInformationController
-                                                          .updatePrices(prices);
+                                                          .plusPrice(prices);
                                                     }),
                                           ),
                                         )

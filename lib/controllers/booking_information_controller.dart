@@ -52,6 +52,19 @@ class BookingInformation extends GetxController {
     print(this.branchID);
   }
 
+  void plusPrice(price) {
+    prices.value += price;
+  }
+
+  void subPrice(price) {
+    prices.value -= price;
+  }
+
+  void resetChosenCourt() {
+    courts = <Court>[].obs;
+    prices = 0.0.obs;
+  }
+
   void updateCourt(Court court) {
     this.court.value = court.courtName;
   }

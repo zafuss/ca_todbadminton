@@ -1,8 +1,11 @@
 import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/formatter.dart';
+import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ConfirmBooking extends StatelessWidget {
@@ -21,116 +24,318 @@ class ConfirmBooking extends StatelessWidget {
     final bookingInformationController = Get.find<BookingInformation>();
     print(bookingInformationController.branchName.value);
     return Scaffold(
+      bottomNavigationBar: Container(
+          height: 75,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: largePadding),
+            child: Obx(() {
+              int count = bookingInformationController.courts.length;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Price: ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        bookingInformationController.prices.toInt().toString() +
+                            'đ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                      )
+                    ],
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        // Nếu bạn muốn nút có màu khác khi disable, bạn có thể thay đổi màu sắc ở đây
+                        backgroundColor: count > 0
+                            ? primaryColor
+                            : Colors.grey.withOpacity(0.5),
+                      ),
+                      onPressed: count > 0
+                          ? () {
+                              Get.toNamed(BookingCompleted.routeName);
+                            }
+                          : null,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Checkout',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color:
+                                        count > 0 ? Colors.white : Colors.grey),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 13,
+                            color: count > 0 ? Colors.white : Colors.grey,
+                          )
+                        ],
+                      ))
+                ],
+              );
+            }),
+          )),
       appBar: CustomHasTitleAppbar(
         backFunc: () => Get.back(),
         title: 'Confirm your reservation',
       ),
       body: Column(children: [
-        Container(
-          color: Color.fromRGBO(238, 239, 239, 1),
-          child: Padding(
-            padding: EdgeInsets.all(minPadding),
-            child: Obx(
-              () => Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: minPadding / 2, horizontal: largePadding),
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    // color: Color(0x0C591B1B),
+                    color: primaryColor.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                    spreadRadius: 0,
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(defaultBorderRadius * 2)),
+            child: Padding(
+              padding: EdgeInsets.all(minPadding),
+              child: Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: minPadding),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Branch',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Play Time',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Num of court',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          )),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                bookingInformationController.branchName.value,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                Formatter.playTimeString(
+                                    Formatter.convertStringToTimeOfDay(
+                                        bookingInformationController
+                                            .startTime.value),
+                                    Formatter.convertStringToTimeOfDay(
+                                        bookingInformationController
+                                            .endTime.value)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                bookingInformationController.courts.length
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    bookingInformationController.courts.length <= 0
+                        ? Center(
+                            child: TextButton(
+                                onPressed: () => Get.back(),
+                                child: Text('Choose your court again')),
+                          )
+                        : SizedBox(
+                            height:
+                                bookingInformationController.courts.length * 35,
+                            child: ListView.builder(
+                                itemCount:
+                                    bookingInformationController.courts.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 6),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            bookingInformationController
+                                                .courts[index].courtName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                          ),
+                                          GestureDetector(
+                                            child: Text(
+                                              'Remove',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(color: Colors.red),
+                                            ),
+                                            onTap: () {
+                                              final searchController =
+                                                  Get.find<ResultController>();
+                                              double price = Formatter
+                                                  .roundToNearestThousand(
+                                                      searchController.result
+                                                          .firstWhere((element) =>
+                                                              element.courtID ==
+                                                              bookingInformationController
+                                                                  .courts[index]
+                                                                  .courtID)
+                                                          .price);
+                                              bookingInformationController
+                                                  .subPrice(price);
+                                              bookingInformationController
+                                                  .removeCourt(
+                                                      bookingInformationController
+                                                          .courts[index]);
+                                            },
+                                          ),
+                                        ],
+                                      ));
+                                }),
+                          )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(largePadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Branch: ${bookingInformationController.branchName.value}',
+                          'Booking Information',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyMedium!
-                              .copyWith(color: Colors.black),
+                              .headlineMedium!
+                              .copyWith(color: primaryColor),
                         ),
-                        Text(
-                          'Court: ${bookingInformationController.court.value}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: Colors.black),
+                        const SizedBox(
+                          width: 50,
+                          child: Divider(
+                            color: primaryColor,
+                            thickness: 2,
+                          ),
                         ),
                       ],
                     ),
-                    Text(
-                      Formatter.playTimeString(
-                          Formatter.convertStringToTimeOfDay(
-                              bookingInformationController.startTime.value),
-                          Formatter.convertStringToTimeOfDay(
-                              bookingInformationController.endTime.value)),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
-                    )
-                  ],
-                ),
-                Container(
-                  height: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        bookingInformationController.startTime.value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge!
-                            .copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                      ),
-                      Text('-',
+                    SizedBox(height: minPadding),
+                    CustomTFF(context: context, title: 'Name'),
+                    SizedBox(height: minPadding),
+                    CustomTFF(context: context, title: 'Phone Number'),
+                    SizedBox(height: largePadding),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Payment',
                           style: Theme.of(context)
                               .textTheme
-                              .headlineLarge!
-                              .copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600)),
-                      Text(
-                        bookingInformationController.endTime.value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge!
-                            .copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Price: ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: Colors.black),
+                              .headlineMedium!
+                              .copyWith(color: primaryColor),
+                        ),
+                        const SizedBox(
+                          width: 50,
+                          child: Divider(
+                            color: primaryColor,
+                            thickness: 2,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      bookingInformationController.prices.toInt().toString() +
-                          'đ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge!
-                          .copyWith(color: Colors.black),
-                    )
+                    PaymentMethodSelection()
                   ],
-                )
-              ]),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(largePadding),
-          child: Column(
-            children: [
-              CustomTFF(context: context, title: 'Name'),
-              SizedBox(height: minPadding),
-              CustomTFF(context: context, title: 'Phone Number')
+                ),
+              ),
             ],
           ),
         )

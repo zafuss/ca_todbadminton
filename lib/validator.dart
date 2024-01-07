@@ -10,9 +10,9 @@ class Validator {
     if (branchID == '') {
       return 'Please choose a branch.';
     }
-    if (startTime.hour < 5 || endTime.hour > 22) {
-      return 'The court can only be booked between 5am and 10pm.';
-    }
+    // if (startTime.hour < 5 || endTime.hour > 22) {
+    //   return 'The court can only be booked between 5am and 10pm.';
+    // }
     if (CompareFunction.timeOfDayCompare(startTime, endTime) == 1) {
       return 'End time must be after start time.';
     } else if (CompareFunction.timeOfDayCompare(startTime, endTime) == 0 ||

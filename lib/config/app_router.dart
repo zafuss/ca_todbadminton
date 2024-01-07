@@ -24,6 +24,8 @@ class AppRouter {
         return HomeScreen.route();
       case ConfirmBooking.routeName:
         return ConfirmBooking.route();
+      case BookingCompleted.routeName:
+        return BookingCompleted.route();
       // case SplashScreen.routeName:
       //   return SplashScreen.route();
       // case HomeScreen.routeName:

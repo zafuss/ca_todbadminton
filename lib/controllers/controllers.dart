@@ -5,3 +5,4 @@ export './price_controller.dart';
 export './reservation_controller.dart';
 export './search_result_controller.dart';
 export './rf_detail_controller.dart';
+export './custom_drawer_controller.dart';

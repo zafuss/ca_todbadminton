@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Login',
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(context,
-                      MainScreen.routeName, (Route<dynamic> route) => false);
+                      HomeScreen.routeName, (Route<dynamic> route) => false);
                 },
               ),
             ],

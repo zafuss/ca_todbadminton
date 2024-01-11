@@ -21,7 +21,7 @@ class BookingCompleted extends StatelessWidget {
           height: 75,
           child: TextButton(
             onPressed: () {
-              Get.offAndToNamed(MainScreen.routeName);
+              Get.offAndToNamed(HomeScreen.routeName);
             },
             child: Text('Back to Home Screen'),
           )),

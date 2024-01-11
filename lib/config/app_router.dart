@@ -8,8 +8,10 @@ class AppRouter {
     switch (settings.name) {
       case SearchScreen.routeName:
         return SearchScreen.route();
-      case MainScreen.routeName:
-        return MainScreen.route();
+      case ProfileScreen.routeName:
+        return ProfileScreen.route();
+      // case MainScreen.routeName:
+      //   return MainScreen.route();
       case LoginScreen.routeName:
         return LoginScreen.route();
       case RegisterScreen.routeName:

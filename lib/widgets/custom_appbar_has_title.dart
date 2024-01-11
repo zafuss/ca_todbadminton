@@ -6,11 +6,10 @@ class CustomHasTitleAppbar extends StatelessWidget
     implements PreferredSizeWidget {
   final title;
   final Function()? backFunc;
-  const CustomHasTitleAppbar({
-    super.key,
-    this.title,
-    this.backFunc,
-  });
+  final Function()? menuFunc;
+
+  const CustomHasTitleAppbar(
+      {super.key, this.title, this.backFunc, this.menuFunc});
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,9 @@ class CustomHasTitleAppbar extends StatelessWidget
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LoginScreen.routeName, (route) => false);
+                    // Navigator.pushNamedAndRemoveUntil(
+                    //     context, LoginScreen.routeName, (route) => false);
+                    menuFunc != null ? menuFunc!() : null;
                   },
                 )
               ],

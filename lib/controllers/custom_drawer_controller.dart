@@ -6,6 +6,6 @@ class CustomDrawerController extends GetxController {
 
   void openDrawer() {
     print('open');
-    scaffoldKey.currentState?.openDrawer();
+    scaffoldKey.currentState?.openEndDrawer();
   }
 }

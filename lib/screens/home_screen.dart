@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       bottomNavigationBar: CustomBotNavBar(),
-      drawer: Drawer(),
+      endDrawer: Drawer(),
       key: key,
       appBar: CustomHasTitleAppbar(
           title: 'Book Court', menuFunc: drawerController.openDrawer),

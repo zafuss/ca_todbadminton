@@ -30,7 +30,7 @@ class DrawerController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void openDrawer() {
-    scaffoldKey.currentState?.openDrawer();
+    scaffoldKey.currentState?.openEndDrawer();
   }
 }
 

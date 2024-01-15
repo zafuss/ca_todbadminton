@@ -1,28 +1,28 @@
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-  static const String routeName = '/profile';
+class MyBookingScreen extends StatefulWidget {
+  const MyBookingScreen({super.key});
+  static const String routeName = '/mybooking';
 
   static Route route() {
     return MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
+        builder: (context) => const MyBookingScreen(),
         settings: const RouteSettings(name: routeName));
   }
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<MyBookingScreen> createState() => _MyBookingScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class _MyBookingScreenState extends State<MyBookingScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       body: Center(
-        child: Text('Profile'),
+        child: Text('My Booking'),
       ),
     );
   }

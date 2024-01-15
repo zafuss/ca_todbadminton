@@ -1,3 +1,4 @@
+import 'package:ca_todbadminton/screens/my_booking_screen.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,8 @@ class AppRouter {
     switch (settings.name) {
       case SearchScreen.routeName:
         return SearchScreen.route();
-      case ProfileScreen.routeName:
-        return ProfileScreen.route();
+      case MyBookingScreen.routeName:
+        return MyBookingScreen.route();
       case MainScreen.routeName:
         return MainScreen.route();
       case LoginScreen.routeName:

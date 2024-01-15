@@ -1,6 +1,4 @@
 import 'package:ca_todbadminton/config/config.dart';
-import 'package:ca_todbadminton/main.dart';
-import 'package:ca_todbadminton/screens/home_screen.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -27,18 +25,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController drawerController = CustomDrawerController();
-
     final key = drawerController.scaffoldKey;
     return Scaffold(
       appBar: CustomHasTitleAppbar(
-        title: currentPageIndex == 0 ? 'Book Court' : 'Profile',
+        title: currentPageIndex == 0 ? 'Book Court' : 'My Booking',
         controller: drawerController,
       ),
-      endDrawer: Drawer(),
+      endDrawer: const Drawer(),
       key: key,
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(minPadding),
+          padding: const EdgeInsets.all(minPadding),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(defaultBorderRadius * 2),
             child: NavigationBar(
@@ -53,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
               selectedIndex: currentPageIndex,
-              destinations: [
+              destinations: const [
                 NavigationDestination(
                     icon: Icon(
                       Icons.home_outlined,
@@ -66,20 +63,20 @@ class _MainScreenState extends State<MainScreen> {
                     label: 'Home'),
                 NavigationDestination(
                     icon: Icon(
-                      Icons.person_outline,
+                      Icons.article_outlined,
                       color: Colors.white,
                     ),
                     selectedIcon: Icon(
-                      Icons.person,
+                      Icons.article,
                       color: Colors.white,
                     ),
-                    label: 'Profile'),
+                    label: 'My Booking'),
               ],
             ),
           ),
         ),
       ),
-      body: [HomeScreen(), ProfileScreen()][currentPageIndex],
+      body: [const HomeScreen(), const MyBookingScreen()][currentPageIndex],
     );
   }
 }

@@ -6,3 +6,4 @@ export './reservation_model.dart';
 export './reserved_court_model.dart';
 export './rf_detail_model.dart';
 export './available_court.dart';
+export './customer_model.dart';

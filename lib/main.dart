@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: LoginScreen.routeName,
+      initialRoute: MainScreen.routeName,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: const LoginScreen(),
+      home: const MainScreen(),
     );
   }
 }

@@ -101,4 +101,13 @@ class BookingInformation extends GetxController {
     }
     return false;
   }
+
+  void resetData() {
+    branchName = ''.obs;
+    branchID = ''.obs;
+    court = ''.obs;
+    courts = <Court>[].obs;
+    address = ''.obs;
+    prices = 0.0.obs;
+  }
 }

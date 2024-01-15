@@ -1,5 +1,6 @@
 import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
+import 'package:ca_todbadminton/controllers/custom_drawer_controller.dart';
 import 'package:ca_todbadminton/controllers/search_result_controller.dart';
 import 'package:ca_todbadminton/formatter.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
@@ -25,7 +26,10 @@ class SearchScreen extends StatelessWidget {
     final bookingInformationController = Get.put(BookingInformation());
     Get.delete<ResultController>();
     final searchResultController = Get.put(ResultController());
+    final CustomDrawerController drawerController = CustomDrawerController();
     return Scaffold(
+        key: drawerController.scaffoldKey,
+        endDrawer: Drawer(),
         bottomNavigationBar: Container(
             height: 75,
             child: Padding(
@@ -83,6 +87,7 @@ class SearchScreen extends StatelessWidget {
             Get.back();
             bookingInformationController.resetChosenCourt();
           },
+          controller: drawerController,
         ),
         body: Obx(() => Center(
             child: searchResultController.status.value == 0

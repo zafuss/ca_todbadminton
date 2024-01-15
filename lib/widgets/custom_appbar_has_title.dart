@@ -1,4 +1,5 @@
 import 'package:ca_todbadminton/config/theme.dart';
+import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +8,9 @@ class CustomHasTitleAppbar extends StatelessWidget
   final title;
   final Function()? backFunc;
   final Function()? menuFunc;
-
+  final CustomDrawerController? controller;
   const CustomHasTitleAppbar(
-      {super.key, this.title, this.backFunc, this.menuFunc});
+      {super.key, this.title, this.backFunc, this.menuFunc, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class CustomHasTitleAppbar extends StatelessWidget
                         },
                       )
                     : SizedBox(
-                        width: 36,
+                        width: 49,
                       ),
                 Expanded(
                   child: Center(
@@ -56,11 +57,13 @@ class CustomHasTitleAppbar extends StatelessWidget
                   icon: Icon(
                     Icons.menu,
                     color: Colors.black,
+                    size: 25,
                   ),
                   onPressed: () {
+                    controller!.openDrawer();
                     // Navigator.pushNamedAndRemoveUntil(
                     //     context, LoginScreen.routeName, (route) => false);
-                    menuFunc != null ? menuFunc!() : null;
+                    // menuFunc != null ? menuFunc!() : null;
                   },
                 )
               ],

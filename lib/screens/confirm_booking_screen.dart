@@ -22,8 +22,10 @@ class ConfirmBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookingInformationController = Get.find<BookingInformation>();
-    print(bookingInformationController.branchName.value);
+    final CustomDrawerController drawerController = CustomDrawerController();
     return Scaffold(
+      endDrawer: Drawer(),
+      key: drawerController.scaffoldKey,
       bottomNavigationBar: Container(
           height: 75,
           child: Padding(
@@ -92,6 +94,7 @@ class ConfirmBooking extends StatelessWidget {
       appBar: CustomHasTitleAppbar(
         backFunc: () => Get.back(),
         title: 'Confirm your reservation',
+        controller: drawerController,
       ),
       body: Column(children: [
         Padding(

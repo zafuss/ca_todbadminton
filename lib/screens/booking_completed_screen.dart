@@ -1,4 +1,5 @@
 import 'package:ca_todbadminton/config/config.dart';
+import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,12 +17,14 @@ class BookingCompleted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bookingInformation = Get.find<BookingInformation>();
     return Scaffold(
       bottomNavigationBar: Container(
           height: 75,
           child: TextButton(
             onPressed: () {
-              Get.offAndToNamed(HomeScreen.routeName);
+              Get.offAndToNamed(MainScreen.routeName);
+              bookingInformation.resetData();
             },
             child: Text('Back to Home Screen'),
           )),

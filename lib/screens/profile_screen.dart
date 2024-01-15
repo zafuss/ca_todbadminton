@@ -21,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      bottomNavigationBar: CustomBotNavBar(),
       body: Center(
         child: Text('Profile'),
       ),

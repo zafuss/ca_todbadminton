@@ -10,8 +10,8 @@ class AppRouter {
         return SearchScreen.route();
       case ProfileScreen.routeName:
         return ProfileScreen.route();
-      // case MainScreen.routeName:
-      //   return MainScreen.route();
+      case MainScreen.routeName:
+        return MainScreen.route();
       case LoginScreen.routeName:
         return LoginScreen.route();
       case RegisterScreen.routeName:

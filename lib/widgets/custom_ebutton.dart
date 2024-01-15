@@ -20,8 +20,12 @@ class CustomElevatedButton extends StatelessWidget {
         onPressed: onPressed,
         style: outlineButton
             ? ElevatedButton.styleFrom(
+                surfaceTintColor: Colors.white,
+                backgroundColor: Colors.white,
                 side: BorderSide(
-                    width: 2, color: primaryColor), // Đường viền màu xanh
+                    width: 2,
+                    color:
+                        primaryColor.withOpacity(0.5)), // Đường viền màu xanh
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       defaultBorderRadius), // Điều chỉnh độ cong của nút

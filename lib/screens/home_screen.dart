@@ -45,9 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final branchController = Get.put(BranchController());
-    final CustomDrawerController drawerController = CustomDrawerController();
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    final key = drawerController.scaffoldKey;
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     final bookingInformationController = Get.put(BookingInformation());
     print(bookingInformationController.startTime.obs.string);
@@ -60,11 +58,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
 
     return Scaffold(
-      bottomNavigationBar: CustomBotNavBar(),
-      endDrawer: Drawer(),
-      key: key,
-      appBar: CustomHasTitleAppbar(
-          title: 'Book Court', menuFunc: drawerController.openDrawer),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: largePadding),
         child: Container(

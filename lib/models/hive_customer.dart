@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 
-import 'models.dart';
 part 'hive_customer.g.dart';
 
 @HiveType(typeId: 0)

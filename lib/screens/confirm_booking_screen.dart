@@ -24,7 +24,7 @@ class ConfirmBooking extends StatelessWidget {
     final bookingInformationController = Get.find<BookingInformation>();
     final CustomDrawerController drawerController = CustomDrawerController();
     return Scaffold(
-      endDrawer: Drawer(),
+      endDrawer: CustomDrawer(),
       key: drawerController.scaffoldKey,
       bottomNavigationBar: Container(
           height: 75,

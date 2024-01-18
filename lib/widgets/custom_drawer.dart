@@ -1,3 +1,4 @@
+import 'package:ca_todbadminton/config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,22 +18,42 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Obx(() => localDataController.customer.value != null
           ? SafeArea(
-              child: Column(
-                children: [
-                  Text(
-                    localDataController.customer.value!.username,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.black),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Get.offAndToNamed(LoginScreen.routeName);
-                        HiveHelper.deleteSavedData();
-                      },
-                      child: Text('Logout'))
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: minPadding),
+                child: Column(
+                  children: [
+                    Card(
+                      color: primaryColor,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Icon(Icons.person),
+                        ),
+                        title: Text(
+                          localDataController.customer.value!.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          localDataController.customer.value!.username,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Get.offAndToNamed(LoginScreen.routeName);
+                          HiveHelper.deleteSavedData();
+                        },
+                        child: Text('Logout'))
+                  ],
+                ),
               ),
             )
           : Text('chua co gi het')),

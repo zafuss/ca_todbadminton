@@ -29,7 +29,7 @@ class SearchScreen extends StatelessWidget {
     final CustomDrawerController drawerController = CustomDrawerController();
     return Scaffold(
         key: drawerController.scaffoldKey,
-        endDrawer: Drawer(),
+        endDrawer: CustomDrawer(),
         bottomNavigationBar: Container(
             height: 75,
             child: Padding(

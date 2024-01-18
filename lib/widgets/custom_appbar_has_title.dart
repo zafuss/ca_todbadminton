@@ -1,6 +1,5 @@
 import 'package:ca_todbadminton/config/theme.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
-import 'package:ca_todbadminton/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomHasTitleAppbar extends StatelessWidget

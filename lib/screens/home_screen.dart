@@ -1,7 +1,5 @@
 import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/formatter.dart';
-import 'package:ca_todbadminton/controllers/booking_information_controller.dart';
-import 'package:ca_todbadminton/controllers/branch_controller.dart';
 import 'package:ca_todbadminton/models/branch_model.dart';
 import 'package:ca_todbadminton/screens/search_result_screen.dart';
 import 'package:ca_todbadminton/validator.dart';
@@ -45,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final branchController = Get.put(BranchController());
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     final bookingInformationController = Get.put(BookingInformation());
     print(bookingInformationController.startTime.obs.string);

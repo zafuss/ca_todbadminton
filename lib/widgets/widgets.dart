@@ -6,3 +6,4 @@ export './custom_dropdownbutton.dart';
 export './home_func_widget.dart';
 export 'simple_dialog_branch_item.dart';
 export './payment_radio_menu.dart';
+export './custom_drawer.dart';

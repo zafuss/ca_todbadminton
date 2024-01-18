@@ -28,4 +28,9 @@ class RemoteService {
     var rfDetails = await RfDetail.rfDetails;
     return rfDetails;
   }
+
+  static Future<List<Customer>> fetchCustomers() async {
+    var customers = await Customer.customers;
+    return customers;
+  }
 }

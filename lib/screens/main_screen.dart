@@ -1,7 +1,9 @@
 import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
+import 'package:ca_todbadminton/services/hive_helpers.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../controllers/controllers.dart';
 
@@ -25,13 +27,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController drawerController = CustomDrawerController();
+    final localDataController = Get.put(LocalDataController());
     final key = drawerController.scaffoldKey;
     return Scaffold(
       appBar: CustomHasTitleAppbar(
         title: currentPageIndex == 0 ? 'Book Court' : 'My Booking',
         controller: drawerController,
       ),
-      endDrawer: const Drawer(),
+      endDrawer: CustomDrawer(),
       key: key,
       bottomNavigationBar: SafeArea(
         child: Padding(

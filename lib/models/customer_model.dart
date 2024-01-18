@@ -37,5 +37,6 @@ class Customer extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props =>
+      [username, password, name, email, status, phoneNumber];
 }

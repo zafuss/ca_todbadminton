@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../config/config.dart';
 
-TextFormField CustomTFF({required BuildContext context,  required String title, bool isPassword = false}) {
+TextFormField CustomTFF(
+    {required BuildContext context,
+    required String title,
+    bool isPassword = false,
+    TextEditingController? controller}) {
   return TextFormField(
+      controller: controller,
       obscureText: isPassword,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(

@@ -1,6 +1,8 @@
 import 'package:ca_todbadminton/config/config.dart';
+import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(RegisterController());
     return Scaffold(
       bottomNavigationBar: InkWell(
         onTap: () {
@@ -46,81 +49,121 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: buildContent(context),
-      ),
-    );
-  }
-
-  Widget buildContent(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: largePadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 78,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Create an Account',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineLarge!
-                    .copyWith(fontWeight: FontWeight.w600),
+          child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: largePadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 78,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Create an Account',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 48,
+            ),
+            Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Phone Number',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Your Phone Number',
+                      controller: controller.phoneNumberController.value),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  Text('Full name',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Full name',
+                      controller: controller.fullNameController.value),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  Text('Email',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Email',
+                      controller: controller.emailController.value),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  Text('Username',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Username',
+                      controller: controller.userNameControler.value),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  Text('Password',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Password',
+                      controller: controller.passwordController.value),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  Text('Repeat Password',
+                      style: Theme.of(context).textTheme.headlineSmall!),
+                  const SizedBox(
+                    height: minPadding,
+                  ),
+                  CustomTFF(
+                      context: context,
+                      title: 'Repeat Password',
+                      controller: controller.repeatPasswordController.value),
+                  const SizedBox(
+                    height: largePadding,
+                  ),
+                  controller.isLoading.isTrue
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : CustomElevatedButton(
+                          title: 'Register',
+                          onPressed: () {
+                            controller.register();
+                          },
+                        )
+                ],
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 48,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Phone Number',
-                  style: Theme.of(context).textTheme.headlineSmall!),
-              const SizedBox(
-                height: minPadding,
-              ),
-              CustomTFF(context: context, title: 'Your Phone Number'),
-              const SizedBox(
-                height: minPadding,
-              ),
-              Text('Email', style: Theme.of(context).textTheme.headlineSmall!),
-              const SizedBox(
-                height: minPadding,
-              ),
-              CustomTFF(context: context, title: 'Email'),
-              const SizedBox(
-                height: minPadding,
-              ),
-              Text('Password',
-                  style: Theme.of(context).textTheme.headlineSmall!),
-              const SizedBox(
-                height: minPadding,
-              ),
-              CustomTFF(context: context, title: 'Password'),
-              const SizedBox(
-                height: minPadding,
-              ),
-              Text('Repeat Password',
-                  style: Theme.of(context).textTheme.headlineSmall!),
-              const SizedBox(
-                height: minPadding,
-              ),
-              CustomTFF(context: context, title: 'Repeat Password'),
-              const SizedBox(
-                height: largePadding,
-              ),
-              CustomElevatedButton(
-                title: 'Register',
-                onPressed: () {},
-              )
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      )),
     );
   }
 }

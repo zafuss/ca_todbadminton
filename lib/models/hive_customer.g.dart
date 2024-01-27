@@ -22,25 +22,22 @@ class HiveCustomerAdapter extends TypeAdapter<HiveCustomer> {
       fields[2] as String,
       fields[3] as String,
       fields[4] as String,
-      fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveCustomer obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
-      ..write(obj.password)
-      ..writeByte(2)
       ..write(obj.name)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.email)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.phoneNumber)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.status);
   }
 

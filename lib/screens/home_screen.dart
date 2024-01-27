@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
                     () => HomeFunctionWidget(
                       func: () {
                         if (branchController.isLoading.value)
-                          CircularProgressIndicator();
+                          Center(child: CircularProgressIndicator());
                         else {
                           showDialog<void>(
                               context: context, builder: (context) => dialog);

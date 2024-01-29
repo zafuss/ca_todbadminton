@@ -1,7 +1,6 @@
 import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/formatter.dart';
-import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

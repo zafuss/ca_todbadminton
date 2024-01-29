@@ -7,9 +7,9 @@ class BranchController extends GetxController {
   var branchList = <Branch>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
-    fetchBranches();
+    await fetchBranches();
     super.onInit();
   }
 
@@ -17,13 +17,10 @@ class BranchController extends GetxController {
     isLoading(true);
     try {
       branchList.value = await RemoteService.fetchBranches();
-      isLoading(false);
       // print(branches);
-      // if (branches != []) branchList.value = branches;
+      if (branchList != []) isLoading(false);
     } catch (e) {
       Get.snackbar('Fetch Branches failed!', e.toString());
-    } finally {
-      isLoading(false);
     }
   }
 }

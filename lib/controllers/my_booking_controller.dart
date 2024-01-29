@@ -59,6 +59,7 @@ class MyBookingController extends GetxController {
             revDetailList.add(rfdetailController.rfDetailList[j]);
           }
         }
+        print(revDetailList);
         List<Court> courtListByCustomer = [];
         for (int i = 0; i < revDetailList.length; i++) {
           var revDetail = revDetailList[i];
@@ -87,6 +88,7 @@ class MyBookingController extends GetxController {
             note: revDetailList[0].note ?? '');
         myBookingData.add(bookingData);
         isLoading(false);
+        revDetailList.clear();
       }
     } catch (e) {
       isLoading(false);

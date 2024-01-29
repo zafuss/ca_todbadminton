@@ -118,7 +118,6 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
     );
   }
 
-  @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

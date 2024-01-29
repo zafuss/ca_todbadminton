@@ -13,7 +13,7 @@ class CourtController extends GetxController {
     super.onInit();
   }
 
-  void fetchCourts() async {
+  Future<void> fetchCourts() async {
     isLoading(true);
     try {
       var courts = await RemoteService.fetchCourts();

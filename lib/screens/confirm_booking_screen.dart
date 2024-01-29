@@ -22,7 +22,9 @@ class ConfirmBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookingInformationController = Get.find<BookingInformation>();
+    final reservationController = Get.find<ReservationController>();
     final CustomDrawerController drawerController = CustomDrawerController();
+    final noteController = TextEditingController();
     return Scaffold(
       endDrawer: CustomDrawer(),
       key: drawerController.scaffoldKey,
@@ -57,36 +59,43 @@ class ConfirmBooking extends StatelessWidget {
                       )
                     ],
                   ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        // Nếu bạn muốn nút có màu khác khi disable, bạn có thể thay đổi màu sắc ở đây
-                        backgroundColor: count > 0
-                            ? primaryColor
-                            : Colors.grey.withOpacity(0.5),
-                      ),
-                      onPressed: count > 0
-                          ? () {
-                              Get.toNamed(BookingCompleted.routeName);
-                            }
-                          : null,
-                      child: Row(
-                        children: [
-                          Text(
-                            'Checkout',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    color:
-                                        count > 0 ? Colors.white : Colors.grey),
+                  reservationController.isLoading.isTrue
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            // Nếu bạn muốn nút có màu khác khi disable, bạn có thể thay đổi màu sắc ở đây
+                            backgroundColor: count > 0
+                                ? primaryColor
+                                : Colors.grey.withOpacity(0.5),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 13,
-                            color: count > 0 ? Colors.white : Colors.grey,
-                          )
-                        ],
-                      ))
+                          onPressed: count > 0
+                              ? () async {
+                                  reservationController
+                                      .addReservationAndDetails();
+                                  // Get.toNamed(BookingCompleted.routeName);
+                                }
+                              : null,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Checkout',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color: count > 0
+                                            ? Colors.white
+                                            : Colors.grey),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 13,
+                                color: count > 0 ? Colors.white : Colors.grey,
+                              )
+                            ],
+                          ))
                 ],
               );
             }),
@@ -312,9 +321,11 @@ class ConfirmBooking extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: minPadding),
-                    CustomTFF(context: context, title: 'Name'),
-                    SizedBox(height: minPadding),
-                    CustomTFF(context: context, title: 'Phone Number'),
+                    CustomTFF(
+                        context: context,
+                        title: 'Note',
+                        multiline: true,
+                        controller: noteController),
                     SizedBox(height: largePadding),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

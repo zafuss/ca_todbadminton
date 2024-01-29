@@ -9,3 +9,4 @@ export 'my_booking_screen.dart';
 export './search_result_screen.dart';
 export './confirm_booking_screen.dart';
 export './booking_completed_screen.dart';
+export './my_booking_details.dart';

@@ -13,7 +13,7 @@ class RfDetailController extends GetxController {
     super.onInit();
   }
 
-  void fetchReservations() async {
+  Future<void> fetchReservations() async {
     isLoading(true);
     try {
       var rfDetails = await RemoteService.fetchRfDetails();

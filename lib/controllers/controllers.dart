@@ -9,3 +9,4 @@ export './custom_drawer_controller.dart';
 export './customer_controller.dart';
 export './login_controller.dart';
 export './register_controller.dart';
+export './my_booking_controller.dart';

@@ -71,4 +71,11 @@ class Formatter {
     // In kết quả
     return '${duration.inHours}h ${duration.inMinutes.remainder(60)}mins';
   }
+
+  static String convertTimeOfDayToDateTime(
+      TimeOfDay tod, DateTime bookingDate) {
+    return DateTime(bookingDate.year, bookingDate.month, bookingDate.day,
+            tod.hour, tod.minute, 0)
+        .toString();
+  }
 }

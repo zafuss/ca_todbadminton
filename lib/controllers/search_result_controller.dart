@@ -31,8 +31,8 @@ class ResultController extends GetxController {
     branches.value = await RemoteService.fetchBranches();
     prices.value = await RemoteService.fetchPrices();
     courts.value = await RemoteService.fetchCourts();
-    courts.value = courts.
-        where((element) =>
+    courts.value = courts
+        .where((element) =>
             element.branchID == bookingInformationController.branchID.value)
         .toList();
     print(courts);
@@ -72,7 +72,6 @@ class ResultController extends GetxController {
       isLoading(true);
 
       for (Reservation reservation in reservations) {
-
         newRfdetails += fetchReservationResult(
                 branchID: branchID,
                 bookingDate: bookingDate,
@@ -80,9 +79,7 @@ class ResultController extends GetxController {
                 endTime: endTime,
                 reservation: reservation)
             .obs;
-
       }
-     
     } finally {
       if (newRfdetails != [].obs) {
         for (RfDetail newRfdetail in newRfdetails) {
@@ -101,26 +98,27 @@ class ResultController extends GetxController {
       int i = 0;
       print(reservedCourts);
       for (Court court in courts) {
+        Price price = prices.firstWhere((element) => element.status == 1);
+        bookingInformationController.updatePriceID(price.priceId);
         i++;
         print(
             'check result: ${checkAvailability(startTime, endTime, bookingDate, reservedCourts, court)}, court: ${court.courtID}');
         if (checkAvailability(
             startTime, endTime, bookingDate, reservedCourts, court)) {
           print(i);
-          print( prices.firstWhere((element) => element.status == 1).priceTag *
-                  Formatter.calculateTimeDifference(startTime, endTime));
+          print(prices.firstWhere((element) => element.status == 1).priceTag *
+              Formatter.calculateTimeDifference(startTime, endTime));
           result.add(AvailableCourt(
               bookingDate: bookingDate,
               branchID: court.branchID,
               courtID: court.courtID,
               startTime: startTime,
               endTime: endTime,
-              price: prices.firstWhere((element) => element.status == 1).priceTag *
+              price: price.priceTag *
                   Formatter.calculateTimeDifference(startTime, endTime)));
         }
       }
       print(result.length);
-      await Future.delayed(Duration(seconds: 1));
       print(result.isEmpty);
       if (await result.isEmpty) {
         status.value = -1;
@@ -148,7 +146,8 @@ class ResultController extends GetxController {
           .toList();
       for (var court in courtList) {
         if (rfDetail.reservationNo == reservation.reservationNo &&
-            CompareFunction.areDatesEqual(bookingDate, reservation.bookingDate) &&
+            CompareFunction.areDatesEqual(
+                bookingDate, reservation.bookingDate) &&
             rfDetail.courtId == court.courtID) {
           result.add(rfDetail);
         }
@@ -156,8 +155,6 @@ class ResultController extends GetxController {
     }
     return result;
   }
-
-
 
   bool checkAvailability(TimeOfDay desiredStartTime, TimeOfDay desiredEndTime,
       DateTime bookingDate, RxList<dynamic> reservedCourts, Court court) {
@@ -181,9 +178,7 @@ class ResultController extends GetxController {
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
                         0) ||
-            (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 ||
-                    CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
-                        0) &&
+            (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
                         0)) {

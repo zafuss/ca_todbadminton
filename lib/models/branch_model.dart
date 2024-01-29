@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+
+List<Branch> branchFromJson(String str) =>
+    List<Branch>.from(json.decode(str).map((x) => Branch.fromJson(x)));
 
 class Branch extends Equatable {
   final String branchID;

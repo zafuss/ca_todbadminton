@@ -6,12 +6,13 @@ import 'package:ca_todbadminton/models/models.dart';
 class BookingInformation extends GetxController {
   var branchName = ''.obs;
   var branchID = ''.obs;
-  var court = ''.obs;
+  var note = ''.obs;
   RxList<Court> courts = <Court>[].obs;
   var bookingDate = ''.obs;
   var startTime = ''.obs;
   var endTime = TimeOfDay.now().toString().obs;
   var address = ''.obs;
+  var priceID = ''.obs;
   RxDouble prices = 0.0.obs;
 
   BookingInformation() {
@@ -28,7 +29,7 @@ class BookingInformation extends GetxController {
   UpdateBookingInformation(
       {required branchID,
       required branchName,
-      required court,
+      required note,
       required bookingDate,
       required startTime,
       required address,
@@ -36,7 +37,7 @@ class BookingInformation extends GetxController {
       required prices}) {
     this.branchID = branchID as RxString;
     this.branchName = branchName as RxString;
-    this.court = court as RxString;
+    this.note = note as RxString;
     this.bookingDate = bookingDate as RxString;
     this.startTime = startTime as RxString; // Corrected variable name
     this.endTime = endTime as RxString; // Corrected variable name
@@ -65,8 +66,8 @@ class BookingInformation extends GetxController {
     prices = 0.0.obs;
   }
 
-  void updateCourt(Court court) {
-    this.court.value = court.courtName;
+  void updateNote(String note) {
+    this.note.value = note;
   }
 
   void updateBookingDate(bookingDate) {
@@ -91,6 +92,10 @@ class BookingInformation extends GetxController {
     this.courts.add(court);
   }
 
+  void updatePriceID(String priceID) {
+    this.priceID.value = priceID;
+  }
+
   void removeCourt(Court court) {
     this.courts.removeWhere((element) => element.courtID == court.courtID);
   }
@@ -105,9 +110,10 @@ class BookingInformation extends GetxController {
   void resetData() {
     branchName = ''.obs;
     branchID = ''.obs;
-    court = ''.obs;
+    note = ''.obs;
     courts = <Court>[].obs;
     address = ''.obs;
     prices = 0.0.obs;
+    priceID = ''.obs;
   }
 }

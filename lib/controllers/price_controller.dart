@@ -13,7 +13,7 @@ class PriceController extends GetxController {
     super.onInit();
   }
 
-  void fetchPrices() async {
+  Future<void> fetchPrices() async {
     isLoading(true);
     try {
       var prices = await RemoteService.fetchPrices();

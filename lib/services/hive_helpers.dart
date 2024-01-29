@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-
 import '../models/hive_customer.dart';
 import '../models/models.dart';
 
@@ -24,10 +23,10 @@ class HiveHelper extends GetxController {
         customer.phoneNumber, customer.status);
   }
 
-  static void deleteSavedData() async {
-    var box = await Hive.openBox('customerBox');
-    // box.delete('customerBox');
-    await Hive.deleteFromDisk();
-    // await Hive.box('customerBox').clear();
-  }
+  // static void deleteSavedData() async {
+  //   var box = await Hive.openBox('customerBox');
+  //   // box.delete('customerBox');
+  //   await Hive.deleteFromDisk();
+  //   // await Hive.box('customerBox').clear();
+  // }
 }

@@ -6,8 +6,10 @@ TextFormField CustomTFF(
     {required BuildContext context,
     required String title,
     bool isPassword = false,
-    TextEditingController? controller}) {
+    TextEditingController? controller,
+    bool multiline = false}) {
   return TextFormField(
+      maxLines: multiline ? 4 : 1,
       controller: controller,
       obscureText: isPassword,
       textAlignVertical: TextAlignVertical.center,
@@ -16,7 +18,7 @@ TextFormField CustomTFF(
           suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : SizedBox(),
           contentPadding: EdgeInsets.only(top: 0, left: 8),
           constraints: BoxConstraints(
-            maxHeight: 48,
+            maxHeight: multiline ? 96 : 48,
           ),
           hintText: title,
           border: OutlineInputBorder(

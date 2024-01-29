@@ -2,6 +2,7 @@ import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
 import 'package:ca_todbadminton/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../controllers/controllers.dart';
 
 class MainScreen extends StatefulWidget {
@@ -45,6 +46,9 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor: primaryColor,
               onDestinationSelected: (int index) {
                 setState(() {
+                  if (index == 0) {
+                    Get.delete<MyBookingController>();
+                  }
                   currentPageIndex = index;
                 });
               },

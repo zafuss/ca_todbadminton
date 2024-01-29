@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:ca_todbadminton/config/config.dart';
+import 'package:ca_todbadminton/controllers/app_local_data_controller.dart';
 import 'package:ca_todbadminton/screens/screens.dart';
-import 'package:ca_todbadminton/services/hive_helpers.dart';
 import 'package:ca_todbadminton/services/share_prefs_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +13,8 @@ class LoginController extends GetxController {
   var isLoading = false.obs;
   var phoneNumberController = TextEditingController().obs;
   var passwordController = TextEditingController().obs;
+
+  final localData = Get.put(LocalDataController());
 
   void login() async {
     try {
@@ -37,6 +39,7 @@ class LoginController extends GetxController {
             Customer.fromJson(json.decode(utf8.decode(res.bodyBytes)));
         // print(customer);
         await SharePrefs.saveCustomerDataLocally(customer);
+        localData.updateCustomer(customer);
         Get.offAndToNamed(MainScreen.routeName);
         Get.snackbar('Login Successfully', 'Welcome back!',
             backgroundColor: primaryColor, colorText: Colors.white);

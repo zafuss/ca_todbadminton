@@ -13,11 +13,15 @@ class BranchController extends GetxController {
     super.onInit();
   }
 
-  void fetchBranches() async {
+  Future<void> fetchBranches() async {
     isLoading(true);
     try {
-      var branches = await RemoteService.fetchBranches();
-      if (branches != []) branchList.value = branches;
+      branchList.value = await RemoteService.fetchBranches();
+      isLoading(false);
+      // print(branches);
+      // if (branches != []) branchList.value = branches;
+    } catch (e) {
+      Get.snackbar('Fetch Branches failed!', e.toString());
     } finally {
       isLoading(false);
     }

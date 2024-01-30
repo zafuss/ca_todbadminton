@@ -5,7 +5,10 @@ class CustomDrawerController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void openDrawer() {
-    print('open');
     scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void closeDrawer() {
+    scaffoldKey.currentState?.closeEndDrawer();
   }
 }

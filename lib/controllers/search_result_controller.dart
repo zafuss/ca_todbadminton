@@ -163,21 +163,30 @@ class ResultController extends GetxController {
       // Kiểm tra xem thời gian mong muốn có trùng với bất kỳ đặt sân nào không
       // print(court.courtID == reservedCourt.courtID);
       if (court.courtID == reservedCourt.courtID) {
-        if (CompareFunction.areDatesEqual(bookingDate, reservedCourt.bookingDate) &&
+        if (CompareFunction.areDatesEqual(
+                    bookingDate, reservedCourt.bookingDate) &&
+                //startTime ko hop le. endTime ko hop le
                 (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
                         0) &&
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == -1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
                         0) ||
+            // startTime hop le. endTime ko hop le
             (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == -1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
-                        0) ||
+                        0) &&
+                (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.startTime)) ==
+                    1 ||
+            // startTime ko hop le
             (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==
-                        0) ||
+                        0) &&
+                (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.endTime)) ==
+                    -1 ||
+            //
             (CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == -1 || CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) == 0) &&
                 (CompareFunction.timeOfDayCompare(desiredEndTime, reservedCourt.endTime) == 1 ||
                     CompareFunction.timeOfDayCompare(desiredStartTime, reservedCourt.startTime) ==

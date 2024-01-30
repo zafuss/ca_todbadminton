@@ -20,66 +20,75 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentPageIndex = 0;
+  // int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController drawerController = CustomDrawerController();
+    final mainScreenController = Get.put(MainScreenController());
+    final branchController = Get.put(BranchController());
     final key = drawerController.scaffoldKey;
     return Scaffold(
       appBar: CustomHasTitleAppbar(
-        title: currentPageIndex == 0 ? 'Book Court' : 'My Booking',
         controller: drawerController,
       ),
-      endDrawer: CustomDrawer(),
+      endDrawer: CustomDrawer(
+        controller: drawerController,
+      ),
       key: key,
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(minPadding),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(defaultBorderRadius * 2),
-            child: NavigationBar(
-              elevation: 0,
-              indicatorColor: primaryColor,
-              height: 58,
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              backgroundColor: primaryColor,
-              onDestinationSelected: (int index) {
-                setState(() {
-                  if (index == 0) {
-                    Get.delete<MyBookingController>();
-                  }
-                  currentPageIndex = index;
-                });
-              },
-              selectedIndex: currentPageIndex,
-              destinations: const [
-                NavigationDestination(
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    ),
-                    selectedIcon: Icon(
-                      Icons.home,
-                      color: Colors.white,
-                    ),
-                    label: 'Home'),
-                NavigationDestination(
-                    icon: Icon(
-                      Icons.article_outlined,
-                      color: Colors.white,
-                    ),
-                    selectedIcon: Icon(
-                      Icons.article,
-                      color: Colors.white,
-                    ),
-                    label: 'My Booking'),
-              ],
+      bottomNavigationBar: Obx(
+        () => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(minPadding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(defaultBorderRadius * 2),
+              child: NavigationBar(
+                elevation: 0,
+                indicatorColor: primaryColor,
+                height: 58,
+                labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+                backgroundColor: primaryColor,
+                onDestinationSelected: (int index) {
+                  if (branchController.isLoading.isFalse)
+                    setState(() {
+                      if (index == 0) {
+                        Get.delete<MyBookingController>();
+                      }
+                      mainScreenController.currentPageIndex.value = index;
+                    });
+                },
+                selectedIndex: mainScreenController.currentPageIndex.value,
+                destinations: const [
+                  NavigationDestination(
+                      icon: Icon(
+                        Icons.home_outlined,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      label: 'Home'),
+                  NavigationDestination(
+                      icon: Icon(
+                        Icons.article_outlined,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: Icon(
+                        Icons.article,
+                        color: Colors.white,
+                      ),
+                      label: 'My Booking'),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      body: [const HomeScreen(), const MyBookingScreen()][currentPageIndex],
+      body: Obx(() => [
+            const HomeScreen(),
+            const MyBookingScreen()
+          ][mainScreenController.currentPageIndex.value]),
     );
   }
 }

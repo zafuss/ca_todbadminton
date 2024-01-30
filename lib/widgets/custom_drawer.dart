@@ -1,12 +1,15 @@
 import 'package:ca_todbadminton/config/config.dart';
 import 'package:ca_todbadminton/controllers/app_local_data_controller.dart';
+import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:ca_todbadminton/services/share_prefs_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../screens/screens.dart';
 
 class CustomDrawer extends StatelessWidget {
+  final CustomDrawerController? controller;
   const CustomDrawer({
+    this.controller,
     super.key,
   });
 
@@ -14,6 +17,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final LocalDataController localDataController =
         Get.find<LocalDataController>();
+    final mainScreenController = Get.find<MainScreenController>();
     return Drawer(
       child: Obx(() => localDataController.isLoading.isFalse
           ? SafeArea(
@@ -46,6 +50,36 @@ class CustomDrawer extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          mainScreenController.currentPageIndex.value = 0;
+                          Get.offAndToNamed(MainScreen.routeName);
+                          controller?.closeDrawer();
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.home_outlined,
+                          ),
+                          title: Text(
+                            'Home',
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          mainScreenController.currentPageIndex.value = 1;
+                          Get.offAndToNamed(MainScreen.routeName);
+                          controller?.closeDrawer();
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.article_outlined,
+                          ),
+                          title: Text(
+                            'My Booking',
                           ),
                         ),
                       ),

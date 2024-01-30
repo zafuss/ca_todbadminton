@@ -25,6 +25,16 @@ class MyBookingDetails extends StatelessWidget {
     final CustomDrawerController drawerController = CustomDrawerController();
 
     return Scaffold(
+      bottomNavigationBar: TextButton(
+        onPressed: () {},
+        child: Text(
+          'Cancel the reservation',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: Colors.red),
+        ),
+      ),
       endDrawer: CustomDrawer(),
       key: drawerController.scaffoldKey,
       appBar: CustomHasTitleAppbar(
@@ -33,6 +43,30 @@ class MyBookingDetails extends StatelessWidget {
         controller: drawerController,
       ),
       body: Column(children: [
+        Container(
+          child: Padding(
+              padding: EdgeInsets.all(minPadding),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    myBookingData.startTime,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    ' - ',
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    myBookingData.endTime,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              )),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
               vertical: minPadding / 2, horizontal: largePadding),
@@ -62,6 +96,18 @@ class MyBookingDetails extends StatelessWidget {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(
+                              'Booking date',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium!
+                                  .copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Text(
                               'Branch',
                               style: Theme.of(context)
@@ -114,6 +160,18 @@ class MyBookingDetails extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            Text(
+                              myBookingData.bookingDate,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium!
+                                  .copyWith(
+                                    color: Colors.black,
+                                  ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Text(
                               myBookingData.branch,
                               style: Theme.of(context)
@@ -168,48 +226,108 @@ class MyBookingDetails extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: minPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Booked court(s)',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium!
-                              .copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          width: 130,
-                          height: myBookingData.courtList.length * 35,
-                          child: ListView.builder(
-                              itemCount: myBookingData.courtList.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 6),
-                                  child: Text(
-                                    textAlign: TextAlign.end,
-                                    myBookingData.courtList[index].courtName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400),
-                                  ),
-                                );
-                              }),
-                        )
-                      ],
-                    ),
-                  ),
                 ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: minPadding / 2, horizontal: largePadding),
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    // color: Color(0x0C591B1B),
+                    color: primaryColor.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                    spreadRadius: 0,
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(defaultBorderRadius * 2)),
+            child: Padding(
+              padding: EdgeInsets.all(minPadding),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: minPadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Booked court(s)',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      width: myBookingData.courtList[0].courtName.length
+                              .toDouble() *
+                          10,
+                      height: myBookingData.courtList.length * 35,
+                      child: ListView.builder(
+                          itemCount: myBookingData.courtList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              child: Text(
+                                textAlign: TextAlign.end,
+                                myBookingData.courtList[index].courtName,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                              ),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: minPadding / 2, horizontal: largePadding),
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    // color: Color(0x0C591B1B),
+                    color: primaryColor.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                    spreadRadius: 0,
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(defaultBorderRadius * 2)),
+            child: Padding(
+              padding: EdgeInsets.all(minPadding),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: minPadding),
+                child: SizedBox(
+                  width: double.maxFinite,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Note',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

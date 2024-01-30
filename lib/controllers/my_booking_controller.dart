@@ -27,11 +27,6 @@ class MyBookingController extends GetxController {
     // TODO: implement onInit
     isLoading(true);
     super.onInit();
-    await branchController.fetchBranches();
-    await courtController.fetchCourts();
-    await priceController.fetchPrices();
-    await reservationController.fetchReservations();
-    await rfdetailController.fetchReservations();
     // print(reservationController.reservationList.length);
     await fetchResult();
     print(myBookingData);
@@ -50,6 +45,11 @@ class MyBookingController extends GetxController {
 
   Future<void> fetchResult() async {
     try {
+      await branchController.fetchBranches();
+      await courtController.fetchCourts();
+      await priceController.fetchPrices();
+      await reservationController.fetchReservations();
+      await rfdetailController.fetchReservations();
       await fetchRev();
       for (int i = 0; i < revListByCustomer.length; i++) {
         var rev = revListByCustomer[i];

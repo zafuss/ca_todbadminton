@@ -1,10 +1,11 @@
 import 'package:ca_todbadminton/config/theme.dart';
 import 'package:ca_todbadminton/controllers/controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomHasTitleAppbar extends StatelessWidget
     implements PreferredSizeWidget {
-  final title;
+  final String? title;
   final Function()? backFunc;
   final Function()? menuFunc;
   final CustomDrawerController? controller;
@@ -13,6 +14,7 @@ class CustomHasTitleAppbar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final mainScreenController = Get.put(MainScreenController());
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Column(
@@ -43,13 +45,39 @@ class CustomHasTitleAppbar extends StatelessWidget
                       ),
                 Expanded(
                   child: Center(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500),
-                    ),
+                    child: title != null
+                        ? Text(
+                            title!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                          )
+                        : Obx(() =>
+                            mainScreenController.currentPageIndex.value == 0
+                                ? Text(
+                                    'Book Court',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                  )
+                                : Text(
+                                    'My Booking',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                  )),
                   ),
                 ),
                 IconButton(

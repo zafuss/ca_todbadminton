@@ -57,7 +57,7 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
                         child: ListTile(
                           trailing: IconButton(
                             icon: Icon(
-                              Icons.more_vert_sharp,
+                              Icons.arrow_forward_ios_sharp,
                               color: primaryColor,
                             ),
                             onPressed: () {

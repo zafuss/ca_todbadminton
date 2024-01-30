@@ -84,24 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'Phone Number',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: primaryColor),
-                    ),
-                    const SizedBox(
-                      width: 50,
-                      child: Divider(
-                        color: primaryColor,
-                        thickness: 2,
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(
                   height: minPadding,
                 ),
